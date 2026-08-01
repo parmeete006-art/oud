@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAMOUH — Atelier of Oud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Poppins:wght@300;400;500&family=Noto+Naskh+Arabic:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root{
+      --obsidian:#0a0806;
+      --espresso:#1c130c;
+      --espresso-2:#241a10;
+      --gold:#c9a24c;
+      --gold-soft:#e8cf8f;
+      --gold-dim:#8a7136;
+      --ivory:#efe6d3;
+      --ivory-dim:#c9c0ac;
+      --smoke:#a89c86;
+      --ember:#7c2f2a;
+      --ember-light:#a5493f;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+
+    html{scroll-behavior:smooth;}
+
+    body{
+      background:var(--obsidian);
+      color:var(--ivory);
+      font-family:'EB Garamond', serif;
+      overflow-x:hidden;
+    }
+
+    ::selection{background:var(--gold-dim);color:var(--obsidian);}
+
+    h1,h2,h3,.display{
+      font-family:'Cormorant Garamond', serif;
+      font-weight:600;
+      letter-spacing:0.01em;
+    }
+
+    .eyebrow{
+      font-family:'Poppins', sans-serif;
+      font-weight:400;
+      font-size:0.72rem;
+      letter-spacing:0.32em;
+      text-transform:uppercase;
+      color:var(--gold-soft);
+      display:flex;
+      align-items:center;
+      gap:0.9rem;
+    }
+    .eyebrow::before{
+      content:'';
+      width:28px;height:1px;
+      background:var(--gold-dim);
+      display:inline-block;
+    }
+    .arabic{
+      font-family:'Noto Naskh Arabic', serif;
+      color:var(--gold-soft);
+      font-size:1.05rem;
+      opacity:0.85;
+    }
+
+    a{color:inherit;text-decoration:none;}
+
+    /* ---------- PRELOADER ---------- */
+    #preloader{
+      position:fixed; inset:0; background:#0a0806; z-index:99999;
+      display:flex; align-items:center; justify-content:center;
+      flex-direction:column; overflow:hidden;
+    }
+    #preloader::before{
+      content:'';
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(232,207,143,0.20), transparent 14%),
+        radial-gradient(circle at 80% 25%, rgba(201,162,76,0.16), transparent 18%),
+        radial-gradient(circle at 50% 80%, rgba(255,255,255,0.06), transparent 22%);
+      pointer-events:none;
+      animation:preloaderGlow 12s ease-in-out infinite;
+    }
+    #preloader::after{
+      content:'';
+      position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent 30%, rgba(255,255,255,0.01));
+      pointer-events:none;
+    }
+    #pre-logo{
+      font-family:'Cormorant Garamond', serif;
+      font-size:18px; letter-spacing:0.6em;
+      color:var(--ivory); opacity:0; margin-top:42px;
+      text-transform:uppercase;
+      font-weight:400;
+    }
+    #pre-canvas{
+      position:absolute; inset:0; pointer-events:none;
+    }
+    .pre-particles{
+      position:absolute; inset:0; pointer-events:none;
+      background:radial-gradient(circle at 50% 60%, rgba(201,162,76,0.04), transparent 60%);
+    }
+
+    /* ---------- NAV ---------- */
+    header{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:1.6rem clamp(1.5rem,5vw,4rem);
+      background:linear-gradient(to bottom, rgba(10,8,6,0.85), transparent);
+      transition:background .4s ease;
+      opacity:0;
+    }
+    .logo{
+      font-family:'Cormorant Garamond', serif;
+      font-size:1.5rem;
+      letter-spacing:0.28em;
+      font-weight:600;
+      color:var(--ivory);
+    }
+    .logo span{color:var(--gold-soft);}
+    nav ul{list-style:none;display:flex;gap:2.4rem;}
+    nav a{
+      font-family:'Poppins', sans-serif;
+      font-size:0.78rem;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      color:var(--ivory-dim);
+      transition:color .3s ease;
+    }
+    nav a:hover{color:var(--gold-soft);}
+    .nav-toggle{display:none;}
+
+    /* ---------- HERO ---------- */
+    .hero{
+      position:relative;
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:1.05fr 0.95fr;
+      align-items:center;
+      padding:0 clamp(1.5rem,5vw,4rem);
+      overflow:hidden;
+    }
+    .hero::before{
+      content:'';
+      position:absolute;inset:0;
+      background:
+        radial-gradient(ellipse 60% 50% at 15% 20%, rgba(201,162,76,0.10), transparent 60%),
+        radial-gradient(ellipse 50% 60% at 85% 80%, rgba(124,47,42,0.14), transparent 60%);
+      pointer-events:none;
+    }
+    .smoke-drift{
+      position:absolute;inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(ellipse 40% 60% at 30% 40%, rgba(200,190,170,0.05), transparent 70%),
+        radial-gradient(ellipse 30% 50% at 70% 60%, rgba(200,190,170,0.04), transparent 70%);
+      animation:drift 22s ease-in-out infinite alternate;
+    }
+    @keyframes drift{
+      0%{transform:translate(0,0) scale(1);}
+      100%{transform:translate(3%,-4%) scale(1.08);}
+    }
+
+    @keyframes preloaderGlow {
+      0% {
+        background-position:20% 20%, 80% 25%, 50% 80%;
+      }
+      50% {
+        background-position:18% 18%, 82% 22%, 52% 78%;
+      }
+      100% {
+        background-position:20% 20%, 80% 25%, 50% 80%;
+      }
+    }
+
+    .hero-copy{
+      position:relative;z-index:2;
+      padding-top:5rem;
+      max-width:560px;
+    }
+    .hero-copy .eyebrow{margin-bottom:1.6rem;}
+    .hero-copy h1{
+      font-size:clamp(2.6rem,5.2vw,4.4rem);
+      line-height:1.05;
+      color:var(--ivory);
+      margin-bottom:1.6rem;
+    }
+    .hero-copy h1 em{
+      font-style:italic;
+      color:var(--gold-soft);
+    }
+    .hero-copy p{
+      font-size:1.12rem;
+      line-height:1.7;
+      color:var(--ivory-dim);
+      max-width:460px;
+      margin-bottom:2.4rem;
+    }
+    .btn-row{display:flex;align-items:center;gap:2rem;flex-wrap:wrap;}
+    .btn{
+      font-family:'Poppins', sans-serif;
+      font-size:0.8rem;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      padding:1rem 2.2rem;
+      border:1px solid var(--gold);
+      color:var(--ivory);
+      position:relative;
+      overflow:hidden;
+      transition:color .4s ease;
+      cursor:pointer;
+    }
+    .btn::before{
+      content:'';
+      position:absolute;inset:0;
+      background:var(--gold);
+      transform:scaleX(0);
+      transform-origin:left;
+      transition:transform .45s cubic-bezier(.7,0,.3,1);
+      z-index:-1;
+    }
+    .btn:hover{color:var(--obsidian);}
+    .btn:hover::before{transform:scaleX(1);}
+    .link-line{
+      font-family:'Poppins', sans-serif;
+      font-size:0.78rem;
+      letter-spacing:0.1em;
+      text-transform:uppercase;
+      color:var(--ivory-dim);
+      border-bottom:1px solid var(--gold-dim);
+      padding-bottom:4px;
+      transition:color .3s ease, border-color .3s ease;
+    }
+    .link-line:hover{color:var(--gold-soft);border-color:var(--gold-soft);}
+
+    .hero-video-wrap{
+      position:relative;z-index:2;
+      display:flex;
+      justify-content:center;
+      align-items:flex-end;
+      height:100%;
+      padding-top:6rem;
+    }
+    .arch-frame{
+      position:relative;
+      width:min(340px, 78%);
+      aspect-ratio:9/16;
+      border-radius:170px 170px 8px 8px;
+      padding:10px;
+      background:linear-gradient(160deg, var(--gold-soft), var(--gold-dim) 40%, var(--espresso) 100%);
+      box-shadow:0 30px 80px -20px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,162,76,0.2);
+    }
+    .arch-inner{
+      width:100%;height:100%;
+      border-radius:160px 160px 4px 4px;
+      overflow:hidden;
+      background:#000;
+      position:relative;
+    }
+    .arch-inner video{
+      width:100%;height:100%;
+      object-fit:cover;
+      display:block;
+      filter:saturate(1.05) contrast(1.03);
+    }
+    .arch-inner::after{
+      content:'';
+      position:absolute;inset:0;
+      background:linear-gradient(to top, rgba(10,8,6,0.55), transparent 35%);
+      pointer-events:none;
+    }
+    .plinth{
+      position:absolute;
+      bottom:-1.6rem;left:50%;
+      transform:translateX(-50%);
+      width:78%;
+      height:2.4rem;
+      border-radius:50%;
+      background:radial-gradient(ellipse at center, rgba(201,162,76,0.35), transparent 70%);
+      filter:blur(2px);
+    }
+
+    .scroll-cue{
+      position:absolute;bottom:2.2rem;left:clamp(1.5rem,5vw,4rem);
+      display:flex;align-items:center;gap:0.8rem;
+      font-family:'Poppins', sans-serif;
+      font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;
+      color:var(--ivory-dim);
+      z-index:3;
+    }
+    .scroll-cue .line{width:1px;height:32px;background:linear-gradient(to bottom, var(--gold-soft), transparent);animation:pulseline 2.4s ease-in-out infinite;}
+    @keyframes pulseline{0%,100%{opacity:0.3;}50%{opacity:1;}}
+
+    /* ---------- CRESCENT DIVIDER (signature element) ---------- */
+    .divider{
+      display:flex;align-items:center;justify-content:center;gap:1.4rem;
+      padding:5rem clamp(1.5rem,5vw,4rem) 3rem;
+    }
+    .divider svg{width:44px;height:44px;flex-shrink:0;opacity:0.9;}
+    .divider .div-label{
+      font-family:'Poppins', sans-serif;
+      font-size:0.72rem;letter-spacing:0.34em;text-transform:uppercase;
+      color:var(--gold-soft);
+    }
+    .divider .rule{height:1px;width:clamp(40px,10vw,140px);background:linear-gradient(to right, transparent, var(--gold-dim));}
+    .divider .rule.right{background:linear-gradient(to left, transparent, var(--gold-dim));}
+
+    /* ---------- PHILOSOPHY ---------- */
+    .philosophy{
+      text-align:center;
+      max-width:820px;
+      margin:0 auto;
+      padding:0 clamp(1.5rem,5vw,4rem) 6rem;
+    }
+    .philosophy blockquote{
+      font-size:clamp(1.6rem,3.2vw,2.4rem);
+      line-height:1.45;
+      font-style:italic;
+      color:var(--ivory);
+      font-weight:500;
+    }
+    .philosophy blockquote .gold-word{color:var(--gold-soft);font-style:normal;}
+    .philosophy cite{
+      display:block;margin-top:1.8rem;
+      font-family:'Poppins', sans-serif;
+      font-style:normal;
+      font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;
+      color:var(--ivory-dim);
+    }
+    .philosophy-more .lead{color:var(--ivory-dim);margin-top:1.4rem;font-size:1.05rem;max-width:760px;margin-left:auto;margin-right:auto;}
+
+    /* ---------- SECTION HEADERS ---------- */
+    .section-head{
+      text-align:center;
+      max-width:640px;
+      margin:0 auto 3.6rem;
+      padding:0 1.5rem;
+    }
+    .section-head h2{
+      font-size:clamp(2rem,4vw,3rem);
+      color:var(--ivory);
+      margin-top:1rem;
+    }
+    .section-head p{
+      color:var(--ivory-dim);
+      margin-top:1rem;
+      font-size:1.05rem;
+      line-height:1.7;
+    }
+    .section-head .eyebrow{justify-content:center;}
+
+    /* ---------- COLLECTION GRID ---------- */
+    .collection{
+      padding:2rem clamp(1.5rem,5vw,4rem) 7rem;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:2.2rem;
+    }
+    .card{
+      perspective:1000px;
+    }
+    .card-inner{
+      position:relative;
+      background:linear-gradient(160deg, var(--espresso-2), var(--espresso) 70%);
+      border:1px solid rgba(201,162,76,0.18);
+      border-radius:4px;
+      padding:1.6rem 1.6rem 2rem;
+      transform-style:preserve-3d;
+      transition:transform .12s ease-out, box-shadow .3s ease, border-color .3s ease;
+      height:100%;
+      display:flex;flex-direction:column;
+    }
+    .card-inner:hover{
+      border-color:rgba(201,162,76,0.4);
+      box-shadow:0 25px 60px -20px rgba(0,0,0,0.6);
+    }
+    .card-media{
+      position:relative;
+      border-radius:2px;
+      overflow:hidden;
+      aspect-ratio:4/5;
+      margin-bottom:1.4rem;
+      background:#000;
+    }
+    .card-media img{
+      width:100%;height:100%;object-fit:cover;
+      transform:translateZ(0) scale(1.02);
+      transition:transform .6s ease;
+    }
+    .card-inner:hover .card-media img{transform:scale(1.08);}
+    .sheen{
+      position:absolute;inset:0;
+      background:transparent;
+      mix-blend-mode:soft-light;
+      pointer-events:none;
+      transition:background .2s ease;
+    }
+    .card-tag{
+      position:absolute;top:0.9rem;left:0.9rem;
+      font-family:'Poppins', sans-serif;
+      font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;
+      background:rgba(10,8,6,0.65);
+      border:1px solid rgba(201,162,76,0.4);
+      color:var(--gold-soft);
+      padding:0.35rem 0.7rem;
+      backdrop-filter:blur(4px);
+    }
+    .card-name{
+      font-size:1.5rem;
+      color:var(--ivory);
+      margin-bottom:0.3rem;
+    }
+    .card-vol{
+      font-family:'Poppins', sans-serif;
+      font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;
+      color:var(--gold-dim);
+      margin-bottom:0.9rem;
+    }
+    .card-notes{
+      font-size:0.98rem;
+      line-height:1.6;
+      color:var(--ivory-dim);
+      flex-grow:1;
+    }
+    .card-footer{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-top:1.3rem;
+      padding-top:1rem;
+      border-top:1px solid rgba(201,162,76,0.15);
+    }
+    .card-price{font-family:'Poppins', sans-serif;font-size:0.85rem;color:var(--gold-soft);}
+    .card-cta{
+      font-family:'Poppins', sans-serif;
+      font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;
+      color:var(--ivory-dim);
+      display:flex;align-items:center;gap:0.4rem;
+      transition:color .3s ease, gap .3s ease;
+    }
+    .card-cta:hover{color:var(--gold-soft);gap:0.65rem;}
+
+    /* ---------- HERITAGE / INGREDIENT BAND ---------- */
+    .heritage{
+      position:relative;
+      padding:7rem clamp(1.5rem,5vw,4rem);
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:4rem;
+      align-items:center;
+      background:var(--espresso);
+      overflow:hidden;
+    }
+    .heritage::before{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse 50% 50% at 80% 20%, rgba(201,162,76,0.08), transparent 60%);
+      pointer-events:none;
+    }
+    .heritage-media{
+      position:relative;
+      border-radius:4px;
+      overflow:hidden;
+      aspect-ratio:5/6;
+    }
+    .heritage-media img{width:100%;height:100%;object-fit:cover;}
+    .heritage-text .eyebrow{margin-bottom:1.4rem;}
+    .heritage-text h2{font-size:clamp(1.9rem,3.4vw,2.7rem);margin-bottom:1.4rem;}
+    .heritage-text p{color:var(--ivory-dim);line-height:1.8;font-size:1.05rem;margin-bottom:1.2rem;}
+    .stat-row{display:flex;gap:2.6rem;margin-top:2.2rem;}
+    .stat b{display:block;font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold-soft);}
+    .stat span{font-family:'Poppins',sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ivory-dim);}
+
+    /* ---------- FEATURE STRIP (secondary bottles) ---------- */
+    .strip{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:2px;
+      background:rgba(201,162,76,0.15);
+    }
+    .strip-item{
+      position:relative;
+      aspect-ratio:14/14;
+      overflow:hidden;
+      background:var(--obsidian);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .strip-item img{width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center;
+      display:block;
+      transition:transform .8s ease;
+      transform-origin:center;}
+    .strip-item:hover img{transform:scale(1.05);}
+    .strip-caption{
+      position:absolute;left:2rem;bottom:2rem;right:2rem;
+    }
+    .strip-caption .eyebrow{margin-bottom:0.6rem;}
+    .strip-caption h3{font-size:1.7rem;color:var(--ivory);}
+    .strip-item::after{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(to top, rgba(10,8,6,0.85), transparent 50%);
+    }
+
+    /* ---------- INGREDIENTS & CRAFT (NEW) ---------- */
+    .ingredients{
+      padding:7rem clamp(1.5rem,5vw,4rem);
+      background:var(--obsidian);
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:2.5rem;
+      border-top:1px solid rgba(201,162,76,0.1);
+    }
+    .ingredient-card{
+      text-align:center;
+      padding:2rem 1.5rem;
+      border:1px solid rgba(201,162,76,0.15);
+      border-radius:4px;
+      background:var(--espresso-2);
+      transition:border-color .3s ease, transform .3s ease;
+    }
+    .ingredient-card:hover{border-color:var(--gold-dim);transform:translateY(-4px);}
+    .ingredient-card .icon{
+      font-size:2.4rem;
+      display:block;
+      margin-bottom:1.2rem;
+      color:var(--gold-soft);
+    }
+    .section-sep{
+      height:28px;
+      width:100%;
+      margin:3.2rem 0;
+      position:relative;
+      overflow:hidden;
+      display:block;
+    }
+    .section-sep::before{
+      content:'';
+      position:absolute;left:50%;top:50%;height:2px;width:60%;
+      background:linear-gradient(90deg,var(--gold-soft),var(--gold-dim));
+      transform:translate(-50%,-50%) scaleX(0);
+      transform-origin:center center;
+      transition:transform .9s cubic-bezier(.2,.7,.2,1), opacity .6s ease;
+      opacity:0.95;
+    }
+    .section-sep.visible::before{transform:translate(-50%,-50%) scaleX(1);}    
+    .ingredient-card h3{font-size:1.5rem;color:var(--gold-soft);margin-bottom:0.8rem;}
+    .ingredient-card p{color:var(--ivory-dim);line-height:1.6;font-size:1rem;}
+
+    /* ---------- JOURNAL / STORY (NEW) ---------- */
+    .journal{
+      padding:7rem clamp(1.5rem,5vw,4rem);
+      background:var(--espresso);
+    }
+    .journal-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:2rem;
+      margin-top:2rem;
+    }
+    .journal-item{
+      background:var(--obsidian);
+      padding:2rem;
+      border-radius:4px;
+      border-left:3px solid var(--gold-dim);
+      transition:border-color .3s ease;
+    }
+    .journal-item:hover{border-left-color:var(--gold-soft);}
+    .journal-item .date{
+      font-family:'Poppins',sans-serif;
+      font-size:0.65rem;
+      letter-spacing:0.1em;
+      text-transform:uppercase;
+      color:var(--gold-dim);
+      margin-bottom:0.6rem;
+    }
+    .journal-item h3{font-size:1.3rem;margin-bottom:0.6rem;color:var(--ivory);}
+    .journal-item p{color:var(--ivory-dim);line-height:1.6;}
+
+    /* ---------- NEWSLETTER / FOOTER ---------- */
+    .cta-band{
+      text-align:center;
+      padding:7rem clamp(1.5rem,5vw,4rem);
+      position:relative;
+    }
+    .cta-band h2{font-size:clamp(2.2rem,4.4vw,3.4rem);margin-bottom:1.2rem;}
+    .cta-band p{color:var(--ivory-dim);max-width:520px;margin:0 auto 2.4rem;line-height:1.7;}
+    .form-row{
+      display:flex;justify-content:center;gap:0;max-width:440px;margin:0 auto;
+      border-bottom:1px solid var(--gold-dim);
+      padding-bottom:0.6rem;
+    }
+    .form-row input{
+      background:transparent;border:none;flex-grow:1;
+      color:var(--ivory);font-family:'EB Garamond',serif;font-size:1.05rem;
+      padding:0.5rem;
+    }
+    .form-row input::placeholder{color:var(--ivory-dim);}
+    .form-row input:focus{outline:none;}
+    .form-row button{
+      background:none;border:none;
+      font-family:'Poppins',sans-serif;font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;
+      color:var(--gold-soft);cursor:pointer;
+      padding:0.5rem 0.4rem;
+    }
+
+    footer{
+      border-top:1px solid rgba(201,162,76,0.15);
+      padding:3.4rem clamp(1.5rem,5vw,4rem) 2.4rem;
+      display:flex;justify-content:space-between;align-items:flex-end;
+      flex-wrap:wrap;gap:2rem;
+    }
+    .foot-brand .logo{display:block;margin-bottom:0.6rem;}
+    .foot-brand p{color:var(--ivory-dim);font-size:0.9rem;max-width:280px;line-height:1.6;}
+    .foot-cols{display:flex;gap:4rem;flex-wrap:wrap;}
+    .foot-col h4{
+      font-family:'Poppins',sans-serif;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;
+      color:var(--gold-soft);margin-bottom:1rem;
+    }
+    .foot-col a{
+      display:block;color:var(--ivory-dim);font-size:0.92rem;margin-bottom:0.7rem;
+      transition:color .3s ease;
+    }
+    .foot-col a:hover{color:var(--gold-soft);}
+    .foot-bottom{
+      width:100%;
+      display:flex;justify-content:space-between;
+      font-family:'Poppins',sans-serif;font-size:0.7rem;letter-spacing:0.06em;
+      color:var(--gold-dim);
+      padding-top:2rem;margin-top:1rem;
+      border-top:1px solid rgba(201,162,76,0.1);
+    }
+
+    /* ---------- REVEAL ANIMATION ---------- */
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto;}
+      .smoke-drift, .scroll-cue .line{animation:none;}
+      .reveal{transition:none;opacity:1;transform:none;}
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width:980px){
+      .grid{grid-template-columns:repeat(2,1fr);}
+      .heritage{grid-template-columns:1fr;}
+      .strip{grid-template-columns:1fr;}
+      .ingredients{grid-template-columns:1fr 1fr;}
+      .journal-grid{grid-template-columns:1fr 1fr;}
+    }
+    @media (max-width:768px){
+      nav ul{display:none;}
+      .hero{grid-template-columns:1fr;padding-top:6rem;}
+      .hero-video-wrap{padding-top:2rem;order:-1;}
+      .arch-frame{width:min(280px,70%);}
+      .hero-copy{padding-top:1rem;text-align:left;}
+      .grid{grid-template-columns:1fr;}
+      .scroll-cue{display:none;}
+      .ingredients{grid-template-columns:1fr;}
+      .journal-grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ========== PRELOADER ========== -->
+<div id="preloader">
+  <canvas id="pre-canvas"></canvas>
+  <div class="pre-particles"></div>
+  <div id="pre-logo">SAMOUH</div>
+</div>
+
+<header id="site-header">
+  <div class="logo">SAMOUH<span>.</span></div>
+  <nav>
+    <ul>
+      <li><a href="#collection">Collection</a></li>
+      <li><a href="#heritage">Heritage</a></li>
+      <li><a href="#reserve">Reserve</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="smoke-drift"></div>
+  <div class="hero-copy" data-parallax="0.22">
+    <div class="eyebrow">Samouh Atelier <span class="arabic">· عود</span></div>
+    <h1>The smoke remembers <em>what words cannot.</em></h1>
+    <p>Each bottle at Samouh begins as raw agarwood, aged in cedar and steeped in oil until the resin gives up its darkest note. What remains is worn close to the skin, not sprayed into a room.</p>
+    <div class="btn-row">
+      <a href="#collection" class="btn">Enter the Collection</a>
+      <a href="#heritage" class="link-line">Our Craft <i class="fa-solid fa-arrow-right-long" aria-hidden="true"></i></a>
+    </div>
+  </div>
+  <div class="hero-video-wrap" data-parallax="0.12">
+    <div class="arch-frame">
+      <div class="arch-inner">
+        <video autoplay muted loop playsinline>
+          <source src="assets/oud.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+    <div class="plinth"></div>
+  </div>
+  <div class="scroll-cue"><span class="line"></span>Scroll</div>
+</section>
+
+<div class="divider reveal">
+  <span class="rule"></span>
+  <svg viewBox="0 0 44 44" fill="none">
+    <path d="M22 4C13 4 6 12 6 22s7 18 16 18c-6-3-10-10-10-18S16 7 22 4z" stroke="#c9a24c" stroke-width="1.2"/>
+  </svg>
+  <span class="rule right"></span>
+</div>
+<div class="philosophy reveal">
+  <blockquote>Oud does not perfume a room. It rewrites the memory of <span class="gold-word">having been there.</span></blockquote>
+  <cite>— The Samouh Atelier, Founding Note</cite>
+  <div class="philosophy-more reveal">
+    <p class="lead">We blend tradition and restraint: each pour is personal, archival, and composed to age well. Our work focuses on patience — time, handcraft, and provenance over volume.</p>
+  </div>
+</div>
+
+<div class="section-sep reveal"></div>
+ 
+<section class="collection" id="collection">
+  <div class="section-head reveal">
+    <div class="eyebrow">Six Pours, One House</div>
+    <h2>The Collection</h2>
+    <p>From the marine restraint of Malaki Sands to the patient, three-year cure of Pearl of Oud — every bottle is numbered by hand at the atelier.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card reveal">
+      <div class="card-inner">
+        <div class="card-media">
+          <img src="assets/oil.png" width='400' height='500' alt="Samouh Oud Oil">
+          <div class="sheen"></div>
+          <span class="card-tag">House Signature</span>
+        </div>
+        <h3 class="card-name">Samouh</h3>
+        <div class="card-vol">Oud Oil · 25ml</div>
+        <p class="card-notes">White lily unfurled over ninety-year agarwood. The scent this house was built on — worn skin-close, never sprayed.</p>
+        <div class="card-footer">
+          <span></span>
+          <span class="card-price">$285</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal">
+      <div class="card-inner">
+        <div class="card-media">
+          <img src="assets/malaki-sands.png" width='400' height='500'%3E%3Crect width='400' height='500' fill='%231c130c'/%3E%3Ccircle cx='200' cy='200' r='50' fill='%23c9a24c' opacity='0.2'/%3E%3C/svg%3E" alt="Malaki Sands">
+          <div class="sheen"></div>
+          <span class="card-tag">Art of Oud</span>
+        </div>
+        <h3 class="card-name">Malaki Sands</h3>
+        <div class="card-vol">Eau de Parfum · 90ml</div>
+        <p class="card-notes">Cool marine oud drawn across sun-warmed dunes. A crowned restraint — the collection's most composed pour.</p>
+        <div class="card-footer">
+          <span></span>
+          <span class="card-price">$210</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal">
+      <div class="card-inner">
+        <div class="card-media">
+          <img src="assets/ember-rouge.png" width='400' height='500' alt="Ember Rouge">
+          <div class="sheen"></div>
+          <span class="card-tag">Art of Luxury</span>
+        </div>
+        <h3 class="card-name">Ember Rouge</h3>
+        <div class="card-vol">Eau de Parfum · 75ml</div>
+        <p class="card-notes">Rose smoked slowly over embers, held in amber glass. The boldest, warmest pour in the house.</p>
+        <div class="card-footer">
+          <span></span>
+          <span class="card-price">$260</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal">
+      <div class="card-inner">
+        <div class="card-media">
+          <img src="assets/noir-tassel.png" width='400' height='500' alt="Noir Tassel">
+          <div class="sheen"></div>
+          <span class="card-tag">Limited Pour</span>
+        </div>
+        <h3 class="card-name">Noir Tassel</h3>
+        <div class="card-vol">Parfum Extrait · 50ml</div>
+        <p class="card-notes">Dark resin fading to rose at dusk, finished by hand with a silk tassel and gilded chain.</p>
+        <div class="card-footer">
+          <span></span>
+          <span class="card-price">$320</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal">
+      <div class="card-inner">
+        <div class="card-media">
+          <img src="assets/pearl.png" width='400' height='500' alt="Pearl of Oud">
+          <div class="sheen"></div>
+          <span class="card-tag">Three-Year Cure</span>
+        </div>
+        <h3 class="card-name">Pearl of Oud</h3>
+        <div class="card-vol">Oud Oil · 30ml</div>
+        <p class="card-notes">Oud pressed beneath mother-of-pearl and set in a gold-checkered vessel. Our most patient fragrance, aged three years in cedar.</p>
+        <div class="card-footer">
+          <span></span>
+          <span class="card-price">$340</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal">
+      <div class="card-inner">
+        <div class="card-media">
+          <img src="assets/vessel.png" width='400' height='500' alt="The Vessel">
+          <div class="sheen"></div>
+          <span class="card-tag">Bespoke</span>
+        </div>
+        <h3 class="card-name">The Vessel</h3>
+        <div class="card-vol">Refillable · 20ml</div>
+        <p class="card-notes">Cut in gold lattice and left empty on purpose — reserved for whichever pour in the house you return to.</p>
+        <div class="card-footer">
+          <span></span>
+          <span class="card-price">$180</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep reveal"></div>
+
+<!-- ================= HERITAGE ================= -->
+<section class="heritage" id="heritage">
+  <div class="heritage-media reveal" data-parallax="0.08">
+    <img src="assets/heritage.png" width='600' height='720' alt="Oud wood and glass at the atelier">
+  </div>
+  <div class="heritage-text reveal">
+    <div class="eyebrow">The Craft</div>
+    <h2>Aged in cedar. Pressed by hand. Never rushed.</h2>
+    <p>Every pour begins with wild agarwood, sourced in small lots and left to age in cedar chests until the resin darkens on its own schedule — never accelerated, never diluted for volume.</p>
+    <p>What you see splintered across our stone plinths is the same wood carried into every bottle: no synthetic accord stands in for it.</p>
+    <div class="stat-row">
+      <div class="stat"><b>90+</b><span>Years, Oldest Agarwood</span></div>
+      <div class="stat"><b>6</b><span>Pours in the House</span></div>
+      <div class="stat"><b>3yr</b><span>Longest Cure Time</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep reveal"></div>
+
+<!-- ================= INGREDIENTS & CRAFT ================= -->
+<section class="ingredients reveal">
+  <div class="ingredient-card">
+    <i class="fa-solid fa-leaf icon" aria-hidden="true"></i>
+    <h3>Wild Agarwood</h3>
+    <p>Harvested from ancient trees in the forests of Assam and Cambodia. Only resin-heavy heartwood is selected, never farmed or artificially inoculated.</p>
+  </div>
+  <div class="ingredient-card">
+    <i class="fa-solid fa-tree icon" aria-hidden="true"></i>
+    <h3>Cedar Aging</h3>
+    <p>Each batch rests in hand-carved cedar chests for a minimum of 18 months. The wood breathes, deepens, and loses its raw edge — patience is our only accelerant.</p>
+  </div>
+  <div class="ingredient-card">
+    <i class="fa-solid fa-hands icon" aria-hidden="true"></i>
+    <h3>Hand Pressing</h3>
+    <p>No mechanical distillation. Oil is expressed by hand in small copper vessels, preserving the fragile top notes that machines crush. Each bottle is a fingerprint.</p>
+  </div>
+</section>
+
+<div class="section-sep reveal"></div>
+
+<!-- ================= FEATURE STRIP ================= -->
+<div class="strip">
+  <div class="strip-item reveal" data-parallax="0.06">
+    <img src="assets/golden.png" alt="Golden lattice bottle">
+    <div class="strip-caption">
+      <div class="eyebrow">Deep Notes</div>
+      <h3>Golden warmth, pure sophistication</h3>
+    </div>
+  </div>
+  <div class="strip-item reveal" data-parallax="0.06">
+    <img src="assets/p.png" alt="Pearl of Oud">
+    <div class="strip-caption">
+      <div class="eyebrow">Timeless Elegance</div>
+      <h3>Precious oud, crafted to last</h3>
+    </div>
+  </div>
+</div>
+
+<div class="section-sep reveal"></div>
+
+<!-- ================= JOURNAL ================= -->
+<section class="journal reveal" id="journal">
+  <div class="section-head">
+    <div class="eyebrow">From the Atelier</div>
+    <h2>Journal</h2>
+    <p>Notes on scent, wood, and the quiet labor behind each pour.</p>
+  </div>
+  <div class="journal-grid">
+    <div class="journal-item">
+      <div class="date">15 Feb 2026</div>
+      <h3>On the Third Year</h3>
+      <p>We opened a cedar chest that had been sealed since 2023. The agarwood inside had lost its sharp edge and softened into something almost powdery — a reminder that time is the only true perfumer.</p>
+    </div>
+    <div class="journal-item">
+      <div class="date">2 Jan 2026</div>
+      <h3>Why We Don't Spray</h3>
+      <p>Spraying disperses the oil into the air; Samouh is meant to be dabbed on the pulse points, where it warms with the skin and stays close. It's an intimacy, not an announcement.</p>
+    </div>
+    <div class="journal-item">
+      <div class="date">10 Nov 2025</div>
+      <h3>Marine Oud</h3>
+      <p>Malaki Sands began as a question: could we draw the mineral chill of the coast into the resinous depth of oud? After 14 trials, the answer is a cool blue accord we've never smelled before.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DIVIDER ================= -->
+<div class="divider reveal">
+  <span class="rule"></span>
+  <svg viewBox="0 0 44 44" fill="none">
+    <path d="M22 4C13 4 6 12 6 22s7 18 16 18c-6-3-10-10-10-18S16 7 22 4z" stroke="#c9a24c" stroke-width="1.2"/>
+  </svg>
+  <span class="rule right"></span>
+</div>
+
+<!-- ================= NEWSLETTER ================= -->
+<section class="cta-band reveal" id="reserve">
+  <div class="eyebrow" style="justify-content:center;">By Invitation</div>
+  <h2 style="margin-top:1rem;">Reserve early access to new pours.</h2>
+  <p>Twice a year, Samouh releases a single limited pour. Join the list and hear before the public does.</p>
+  <form class="form-row" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Reserved ✓';">
+    <input type="email" placeholder="Your email address" required>
+    <button type="submit">Reserve</button>
+  </form>
+</section>
+
+<footer>
+  <div class="foot-brand">
+    <div class="logo">SAMOUH<span>.</span></div>
+    <p>An atelier of oud, working in small, numbered batches from cedar-aged agarwood.</p>
+  </div>
+  <div class="foot-cols">
+    <div class="foot-col">
+      <h4>Collection</h4>
+      <a href="#collection">Samouh</a>
+      <a href="#collection">Malaki Sands</a>
+      <a href="#collection">Pearl of Oud</a>
+    </div>
+    <div class="foot-col">
+      <h4>House</h4>
+      <a href="#heritage">Our Craft</a>
+      <a href="#reserve">Reserve List</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Samouh Atelier</span>
+    <span>Handcrafted in small batches</span>
+  </div>
+</footer>
+
+<script>
+  // ========== PRELOADER (particles + logo) ==========
+  (function preloader() {
+    const preloader = document.getElementById('preloader');
+    const preLogo = document.getElementById('pre-logo');
+    const canvas = document.getElementById('pre-canvas');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    function size() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+    size(); window.addEventListener('resize', size);
+
+    let dust = [];
+    function burst() {
+      for (let i = 0; i < 100; i++) {
+        const a = Math.random() * Math.PI * 2;
+        const sp = Math.random() * 5 + 1.5;
+        dust.push({
+          x: w/2, y: h/2 + 20,
+          vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 1.2,
+          life: 1, r: Math.random() * 2.5 + 0.8,
+          color: Math.random() > 0.5 ? '#c9a24c' : '#e8cf8f'
+        });
+      }
+    }
+    function drawParticles() {
+      ctx.clearRect(0, 0, w, h);
+      dust.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.04; p.life -= 0.014;
+        ctx.globalAlpha = Math.max(p.life, 0);
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.fill();
+      });
+      dust = dust.filter(p => p.life > 0);
+      ctx.globalAlpha = 1;
+      if (dust.length) requestAnimationFrame(drawParticles);
+    }
+
+    const tl = (typeof gsap !== 'undefined') ? gsap.timeline({ delay: 0.2 }) : null;
+    if (tl) {
+      tl.call(() => { burst(); drawParticles(); })
+        .to(preLogo, { opacity: 1, duration: 0.9, ease: 'power1.out' })
+        .to(preloader, { opacity: 0, duration: 0.9, delay: 0.4, ease: 'power1.inOut', onComplete: () => {
+          preloader.style.display = 'none';
+          document.getElementById('site-header').style.opacity = '1';
+        }});
+    } else {
+      setTimeout(() => {
+        burst(); drawParticles();
+        preLogo.style.transition = 'opacity 900ms ease';
+        preLogo.style.opacity = '1';
+      }, 250);
+
+      setTimeout(() => {
+        preloader.style.transition = 'opacity 900ms ease';
+        preloader.style.opacity = '0';
+        setTimeout(() => {
+          preloader.style.display = 'none';
+          document.getElementById('site-header').style.opacity = '1';
+        }, 920);
+      }, 1800);
+    }
+  })();
+
+  // ========== HEADER SCROLL ==========
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    header.style.background = window.scrollY > 40
+      ? 'rgba(10,8,6,0.92)'
+      : 'linear-gradient(to bottom, rgba(10,8,6,0.85), transparent)';
+  });
+
+  // ========== SCROLL REVEAL ==========
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  // ========== PARALLAX ==========
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const parallaxEls = document.querySelectorAll('[data-parallax]');
+    let rafId = null;
+    function onParallax() {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const scY = window.scrollY;
+        parallaxEls.forEach(el => {
+          const depth = parseFloat(el.getAttribute('data-parallax')) || 0.18;
+          const rect = el.getBoundingClientRect();
+          const offset = (rect.top + scY) * depth;
+          el.style.transform = `translate3d(0,${-offset * 0.02}px,0)`;
+        });
+      });
+    }
+    window.addEventListener('scroll', onParallax, { passive: true });
+    onParallax();
+  }
+
+  // ========== 3D TILT + SHEEN ==========
+  if (window.matchMedia('(hover: hover)').matches) {
+    document.querySelectorAll('.card').forEach(card => {
+      const inner = card.querySelector('.card-inner');
+      const sheen = card.querySelector('.sheen');
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const x = e.clientX - r.left;
+        const y = e.clientY - r.top;
+        const rx = ((y / r.height) - 0.5) * -10;
+        const ry = ((x / r.width) - 0.5) * 10;
+        inner.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateZ(6px)`;
+        sheen.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(232,207,143,0.35), transparent 60%)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        inner.style.transform = 'rotateX(0) rotateY(0) translateZ(0)';
+        sheen.style.background = 'transparent';
+      });
+    });
+  }
+</script>
+</body>
+</html>
